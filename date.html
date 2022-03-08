@@ -1,0 +1,62 @@
+<html>
+<head>
+	<title>getDayInfo(); func</title>
+	<script type="text/javascript">
+
+	//Определяем метод getWeekOfMonth для получения номера недели в месяце
+    Date.prototype.getWeekOfMonth = function(exact) {
+        var month = this.getMonth()
+            , year = this.getFullYear()
+            , firstWeekday = new Date(year, month, 1).getDay()
+            , lastDateOfMonth = new Date(year, month + 1, 0).getDate()
+            , offsetDate = this.getDate() + firstWeekday - 1
+            , index = 1 // начало с 0 или 1
+            , weeksInMonth = index + Math.ceil((lastDateOfMonth + firstWeekday - 7) / 7)
+            , week = index + Math.floor(offsetDate / 7)
+        ;
+        if (exact || week < 2 + index) return week;
+        return week === weeksInMonth ? index + 5 : week;
+    };
+    
+
+		function getDayInfo(date) {
+			//Переворачиваем дату из dd.mm.yyyy в yyyy/mm/dd
+			var date_parts = date.split(".");
+			var d = new Date(date_parts[2] + '/' + date_parts[0] + '/' + date_parts[1]);
+
+			//Определяем русский словарь
+			var days = [
+			  'Воскресенье',
+			  'Понедельник',
+			  'Вторник',
+			  'Среда',
+			  'Четверг',
+			  'Пятница',
+			  'Суббота'
+			];
+			var monthes = [
+				'января',
+				'февраля',
+				'марта',
+				'апреля',
+				'мая',
+				'июня',
+				'июнля',
+				'августа',
+				'сентября',
+				'окнтября',
+				'ноября',
+				'декабря'
+			];
+			return days[d.getDay()]+", "+d.getWeekOfMonth()+" неделя "+monthes[d.getMonth()]+" "+d.getFullYear()+ " года";
+		}
+	</script>
+</head>
+<body>
+	<script type="text/javascript">
+		document.write(getDayInfo("01.01.2022"));
+		document.write("<br/>");
+		document.write(getDayInfo("12.15.2021"));
+	</script>
+</body>
+</html>m
